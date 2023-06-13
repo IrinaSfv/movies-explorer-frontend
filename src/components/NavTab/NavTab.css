@@ -1,0 +1,53 @@
+.promo__navigation {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 133%;
+    position: absolute;
+    bottom: 30px;
+    margin: 0 auto;
+}
+
+.promo__link {
+    text-decoration: none;
+    margin-right: 10px;
+}
+
+.promo__link:last-of-type {
+    margin-right: 0;
+}
+
+.promo__button {
+    cursor: pointer;
+    margin: 0;
+    padding: 0;
+    border: none;
+    border-radius: 10px;
+    background-color: #E8E8E8;
+    height: 36px;
+    width: 96px;
+    transition: 0.2s;
+}
+
+.promo__button:hover {
+    background-color: #3456F3;
+    color: #FFF;
+}
+
+@media screen and (max-width: 564px) {
+    .promo__navigation {
+        font-size: 10px;
+        line-height: 160%;
+        bottom: 17px;
+    }
+
+    .promo__button {
+        border-radius: 6px;
+        height: 26px;
+        width: 82px;
+    }
+
+    .promo__link {
+        margin-right: 6px;
+    }
+}

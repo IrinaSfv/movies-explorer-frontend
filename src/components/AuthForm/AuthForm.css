@@ -1,0 +1,140 @@
+.auth {
+    margin: 0 auto;
+    padding: 70px 0;
+    box-sizing: border-box;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.auth__container {
+    width: 396px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+}
+
+.auth__logo {
+    padding: 0;
+    margin: 0 0 40px;
+    box-sizing: border-box;
+    width: 38px;
+    height: 38px;
+    object-fit: cover;
+}
+
+.auth__title {
+    margin: 0 0 40px;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 29px;
+}
+
+.auth__form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 16px;
+}
+
+.auth__label {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 10px;
+    line-height: 12px;
+    color: #A0A0A0;
+}
+
+.auth__input {
+    margin-bottom: 24px;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+    padding: 5px 0 10px;
+    border: 0;
+    border-bottom: 1px solid #E8E8E8;
+    background-color: transparent;
+}
+
+.auth__input::placeholder {
+    color: #A0A0A0;
+}
+
+.auth__input:focus {
+    outline: 0;
+    border-bottom: 1px solid #3456F3;
+}
+
+.auth__input_type_register:last-of-type {
+    margin-bottom: 83px;
+}
+
+.auth__input_type_login:last-of-type {
+    margin-bottom: 152px;
+}
+
+.auth__button {
+    margin-top: 69px;
+}
+
+.auth__link-container {
+    display: flex;
+    gap: 6px;
+    align-items: baseline;
+    justify-content: center;
+    font-size: 14px;
+    line-height: 17px;
+    text-align: center;
+}
+
+.auth__link-text {
+    margin: 0;
+    color: #A0A0A0;
+}
+
+.auth__link {
+    color: #3456F3;
+    text-decoration: none;
+}
+
+@media screen and (max-width: 896px) {
+    .auth {
+        padding: 232px 0;
+    }
+}
+
+@media screen and (max-width: 564px) {
+    .auth {
+        padding: 56px  30px 30px;
+    }
+
+    .auth__container {
+        width: 100%;
+        align-items: center;
+    }
+
+    .auth__logo {
+        margin-bottom: 50px;
+    }
+
+    .auth__title {
+        margin-bottom: 80px;
+    }
+
+    .auth__form {
+        margin-bottom: 14px;
+    }
+
+    .auth__button {
+        margin-top: 157px;
+    }
+
+    .auth__link-container {
+        font-size: 12px;
+        line-height: 15px;
+        gap: 7px;
+    }
+}
