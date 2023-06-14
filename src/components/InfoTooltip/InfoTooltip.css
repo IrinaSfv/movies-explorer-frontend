@@ -1,0 +1,96 @@
+.info-tooltip {
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, .3);
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0.3s, opacity 0.3s;
+    justify-content: center;
+    align-items: center;
+}
+
+.info-tooltip_opened {
+    visibility: visible;
+    opacity: 1;
+}
+
+.info-tooltip__container {
+    margin: 0;
+    padding: 60px 36px;
+    box-sizing: border-box;
+    position: relative;
+    max-width: 430px;
+    border: none;
+    background-color: #FAFAFA;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0 0 25px 0 rgba(0, 0, 0, 0.15);
+    /* border-radius: 10px; */
+}
+
+.info-tooltip__image {
+    width: 120px;
+    height: 120px;
+    margin-bottom: 32px;
+}
+
+.info-tooltip__title {
+    margin: 0;
+    padding: 0;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 29px;
+    text-align: center;
+}
+
+.info-tooltip__close-button {
+    position: absolute;
+    top: -40px;
+    right: -40px;
+    background-image: url(../../images/Info_CloseIcon.svg);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 32px;
+    height: 32px;
+    border: none;
+    padding: 0;
+    background-color: transparent;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.info-tooltip__close-button:hover {
+    opacity: 0.6;
+}
+
+@media screen and (max-width: 564px) {
+
+    .info-tooltip__container {
+        margin: 0 19px;
+        padding: 50px 18px;
+        width: 282px;
+    }
+
+    .info-tooltip__title {
+        font-size: 20px;
+        line-height: 24px;
+    }
+
+    .info-tooltip__image {
+        margin-bottom: 40px;
+    }
+
+    .info-tooltip__close-button {
+        top: -36px;
+        right: 0;
+        width: 20px;
+        height: 20px;
+    }
+}

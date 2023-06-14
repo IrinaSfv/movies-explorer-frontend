@@ -9,11 +9,15 @@ function Header() {
 
     return (
         <header className="header">
-            <img className="header__logo" src={logo} alt="Логотип" />
+            <Link to="/" className="header__logo-link">
+                <img className="header__logo" src={logo} alt="Логотип" />
+            </Link>
             {!isLoggedIn ? (
                 <div className="header__links">
                     <Link to="/signup" className="header__reg">Регистрация</Link>
-                    <Link to="/signin" className="header__auth"><button className="header__button" type="button" aria-label="Кнопка авторизации">Войти</button></Link>
+                    <Link to="/signin" className="header__auth">
+                        <button className="header__button" type="button" aria-label="Кнопка авторизации">Войти</button>
+                    </Link>
                 </div>
             ) : (
                 <Menu />

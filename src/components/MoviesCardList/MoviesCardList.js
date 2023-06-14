@@ -10,6 +10,7 @@ import SavedMovies from '../../utils/SavedMovies';
 function MoviesCardList() {
     const currentLocation = useLocation().pathname;
     const [isLoading, setIsLoading] = useState(false);
+    const [isMovies, setIsMovies] = useState(true);
 
     function setCards() {
         let cards = [];
@@ -25,7 +26,7 @@ function MoviesCardList() {
         <section className="cards" aria-label="Карточки фильмов">
             {isLoading ? (
                 <Preloader />
-            ) : (
+            ) : ( isMovies ? (
                 <>
                     <ul className="cards__list">
                         {setCards().map(item => {
@@ -39,6 +40,10 @@ function MoviesCardList() {
                         {currentLocation === '/saved-movies' ? '' : <button className="cards__loading-button">Ещё</button>}
                     </div>
                 </>
+            ) : (
+                <div className="cards__text-container">
+                    <h2 className="cards__text">Фильмы не найдены</h2>
+                </div>) 
             )}
         </section>
     );

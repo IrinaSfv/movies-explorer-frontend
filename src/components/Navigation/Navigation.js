@@ -11,7 +11,7 @@ function Navigation({ isOpenedMenu }) {
         <nav className={`menu__navigation ${isOpenedMenu && 'menu__navigation_active'}`}>
             <ul className="menu__list">
                 <li className="menu__item menu__item_type_visable">
-                    <Link to="/movies" className={`menu__link ${currentLocation === '/' && 'menu__link_active'}`}>Главная</Link>
+                    <Link to="/" className={`menu__link ${currentLocation === '/' && 'menu__link_active'}`}>Главная</Link>
                 </li>
                 <li className="menu__item">
                     <Link to="/movies" className={`menu__link ${currentLocation === '/movies' && 'menu__link_active'}`}>Фильмы</Link>

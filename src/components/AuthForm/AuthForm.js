@@ -3,11 +3,13 @@ import './AuthForm.css';
 import logo from '../../images/logo.svg';
 import { Link } from 'react-router-dom';
 
-function AuthForm({type, title, onSubmit, children, buttonTitle, linkText, link, linkTitle }) {
+function AuthForm({ type, title, onSubmit, children, buttonTitle, linkText, link, linkTitle }) {
     return (
         <section className="auth">
             <div className={`auth__container auth__container_type_${type}`}>
-                <img className="auth__logo" src={logo} alt="Логотип" />
+                <Link to="/" className="auth__logo-link">
+                    <img className="auth__logo" src={logo} alt="Логотип" />
+                </Link>
                 <h1 className="auth__title">{title}</h1>
                 <form className="auth__form" onSubmit={onSubmit}>
                     {children}
@@ -15,7 +17,7 @@ function AuthForm({type, title, onSubmit, children, buttonTitle, linkText, link,
                 </form>
                 <div className="auth__link-container">
                     <p className="auth__link-text">{linkText}</p>
-                    <Link className="auth__link" to={link}>{linkTitle}</Link>
+                    <Link to={link} className="auth__link">{linkTitle}</Link>
                 </div>
             </div>
         </section>

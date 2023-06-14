@@ -1,14 +1,15 @@
 import React from 'react';
 import AuthForm from '../../components/AuthForm/AuthForm';
 import { useState } from 'react';
+import CurrentUser from '../../utils/CurrentUser';
 
-function Login() {
-  const [emailValue, setEmailValue] = useState("");
-  const [passwordValue, setPasswordValue] = useState("");
+function Login({ onLogin }) {
+  const [emailValue, setEmailValue] = useState(CurrentUser.email);
+  const [passwordValue, setPasswordValue] = useState("password");
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // onLogin(emailValue, passwordValue);
+    onLogin();
     setEmailValue("");
     setPasswordValue("");
   }
@@ -30,31 +31,37 @@ function Login() {
       link="/signup"
       linkTitle="Регистрация"
     >
-      <label className="auth__label" htmlFor="email">E-mail</label>
-      <input
-        onChange={changeEmail}
-        className="auth__input auth__input_type_login"
-        type="email"
-        value={emailValue || ""}
-        name="email"
-        id="email"
-        placeholder="E-mail"
-        minLength="2"
-        maxLength="30"
-        required
-      />
-      <label className="auth__label" htmlFor="password">Пароль</label>
-      <input
-        onChange={changePassword}
-        className="auth__input auth__input_type_login"
-        type="password"
-        value={passwordValue || ""}
-        name="password"
-        id="password"
-        placeholder="Пароль"
-        minLength="6"
-        maxLength="30"
-        required />
+      <div className="auth__form-block auth__form-block_type_login">
+        <label className="auth__label" htmlFor="email">E-mail</label>
+        <input
+          onChange={changeEmail}
+          className="auth__input auth__input_type_login"
+          type="email"
+          value={emailValue || ""}
+          name="email"
+          id="email"
+          placeholder="E-mail"
+          minLength="2"
+          maxLength="30"
+          required
+        />
+        <span id="email-error" className="auth__error">Что-то пошло не так...</span>
+      </div>
+      <div className="auth__form-block auth__form-block_type_login">
+        <label className="auth__label" htmlFor="password">Пароль</label>
+        <input
+          onChange={changePassword}
+          className="auth__input auth__input_type_login"
+          type="password"
+          value={passwordValue || ""}
+          name="password"
+          id="password"
+          placeholder="Пароль"
+          minLength="6"
+          maxLength="30"
+          required />
+        <span id="password-error" className="auth__error">Что-то пошло не так...</span>
+      </div>
     </AuthForm>
   );
 }
