@@ -37,7 +37,7 @@ function MoviesCardList() {
                         )}
                     </ul>
                     <div className="cards__button-container">
-                        {currentLocation === '/saved-movies' ? '' : <button className="cards__loading-button">Ещё</button>}
+                        {currentLocation === '/saved-movies' ? '' : <button type="button" className="cards__loading-button">Ещё</button>}
                     </div>
                 </>
             ) : (

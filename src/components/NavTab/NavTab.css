@@ -3,18 +3,19 @@
     font-weight: 500;
     font-size: 12px;
     line-height: 133%;
-    position: absolute;
-    bottom: 30px;
     margin: 0 auto;
+}
+
+.promo__list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    gap: 10px;
 }
 
 .promo__link {
     text-decoration: none;
-    margin-right: 10px;
-}
-
-.promo__link:last-of-type {
-    margin-right: 0;
 }
 
 .promo__button {
@@ -47,7 +48,7 @@
         width: 82px;
     }
 
-    .promo__link {
-        margin-right: 6px;
+    .promo__list {
+        gap: 6px;
     }
 }

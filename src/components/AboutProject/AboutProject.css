@@ -64,21 +64,21 @@
     width: 80%;
 }
 
-.duration__time {
+.duration__time-box {
     box-sizing: border-box;
-    height: 36px;
+    padding: 9px 0;
     display: flex;
     justify-content: center;
     align-items: center;
     margin-bottom: 14px;
 }
 
-.duration__time_type_backend {
+.duration__time-box_type_backend {
     background-color: #3456F3;
     color: #FFF;
 }
 
-.duration__time_type_frontend {
+.duration__time-box_type_frontend {
     background-color: #F2F2F2;
 }
 
@@ -131,6 +131,10 @@
     .duration__element_type_frontend {
         max-width: 79%;
     }
+
+    .duration__time-box {
+        padding: 9px 0 11px;
+    }
 }
 
 @media screen and (max-width: 564px) {
@@ -159,7 +163,8 @@
         line-height: 22px;
     }
 
-    .duration__time {
+    .duration__time-box {
+        padding: 11px 0;
         margin-bottom: 10px;
     }
 

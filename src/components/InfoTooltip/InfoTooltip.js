@@ -3,7 +3,7 @@ import './InfoTooltip.css';
 
 function InfoTooltip({ isOpen, onClose, infoTitle, infoImg, onEscClick, onOverlayClick }) {
     return (
-        <div className={`info-tooltip ${isOpen && "info-tooltip_opened"}`} onKeyDown={onEscClick} onClick={onOverlayClick}>
+        <div className={isOpen ? "info-tooltip_opened info-tooltip" : "info-tooltip"} onKeyDown={onEscClick} onClick={onOverlayClick}>
             <div className="info-tooltip__container">
                 <button className="info-tooltip__close-button" type="button" aria-label="Кнопка закрытия данного попапа" onClick={onClose}></button>
                 <img

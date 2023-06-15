@@ -36,15 +36,3 @@
     width: 11.5px;
     height: 14px;
 }
-
-@media screen and (max-width: 896px) {
-    .user-icon {
-        margin: 0 auto 92px;
-    }
-}
-
-@media screen and (max-width: 564px) {
-    .user-icon {
-        margin-bottom: 48px;
-    }
-}

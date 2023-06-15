@@ -41,9 +41,12 @@
     margin: 0;
 }
 
+.footer__nav {
+    margin-left: auto;
+}
+
 .footer__list {
     margin: 0;
-    margin-left: auto;
     padding: 0;
     list-style: none;
     box-sizing: border-box;
@@ -97,6 +100,10 @@
     .footer__copyright {
         order: 2;
         color: #A0A0A0;
+    }
+
+    .footer__nav {
+        margin: 0;
     }
 
     .footer__list {

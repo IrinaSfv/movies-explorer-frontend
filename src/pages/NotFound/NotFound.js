@@ -5,22 +5,24 @@ import { useNavigate } from 'react-router-dom';
 function NotFound() {
   const navigate = useNavigate();
 
-  function handleBackClick()  {
+  function handleBackClick() {
     navigate(-1);
   }
 
   return (
-    <section className="not-found">
-      <h2 className="not-found__title">404</h2>
-      <p className="not-found__descriprion">Страница не найдена</p>
-      <button
+    <main className="content page__content">
+      <section className="not-found">
+        <h2 className="not-found__title">404</h2>
+        <p className="not-found__descriprion">Страница не найдена</p>
+        <button
           type="button"
           className="not-found__button"
           onClick={handleBackClick}
         >
-         Назад
+          Назад
         </button>
-    </section>
+      </section>
+    </main>
   );
 }
 

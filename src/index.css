@@ -21,11 +21,26 @@
 }
 
 .page__root {
+    display: flex;
+    flex-direction: column;
     width: 100%;
 }
 
 .page__content {
     max-width: 100%;
+}
+
+.nav-button {
+    margin: 0;
+    padding: 0;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.nav-button:hover {
+    opacity: 0.7;
 }
 
 .submit-button {
@@ -48,6 +63,12 @@
 
 .submit-button:hover {
     opacity: 0.8;
+}
+
+.submit-button_inactive {
+    background-color: rgba(160, 160, 160, 0.2);
+    color: #C2C2C2;
+    cursor: default;
 }
 
 @media screen and (max-width: 564px) {

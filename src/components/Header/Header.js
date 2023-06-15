@@ -14,7 +14,9 @@ function Header() {
             </Link>
             {!isLoggedIn ? (
                 <div className="header__links">
-                    <Link to="/signup" className="header__reg">Регистрация</Link>
+                    <Link to="/signup" className="header__reg">
+                        <button className="header__reg-button nav-button" type="button" aria-label="Кнопка регистрации">Регистрация</button>
+                    </Link>
                     <Link to="/signin" className="header__auth">
                         <button className="header__button" type="button" aria-label="Кнопка авторизации">Войти</button>
                     </Link>

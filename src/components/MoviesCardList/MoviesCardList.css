@@ -10,7 +10,7 @@
     justify-content: center;
     align-items: center;
     width: 100%;
-    height: calc(100vh - 488px);
+    padding: 160px 0 217px;
 }
 
 .cards__text {
@@ -68,7 +68,7 @@
     }
 
     .cards__text-container {
-        height: calc(100vh - 496px);
+        padding: 350px 0 380px;
     }
     
     .cards__list {
@@ -83,7 +83,7 @@
     }
 
     .cards__text-container {
-        height: calc(100vh - 577px);
+        padding: 220px 0 255px;
     }
     
     .cards__list {

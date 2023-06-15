@@ -7,7 +7,7 @@ function MoviesCard({ card }) {
     const currentLocation = useLocation().pathname;
     const [isSavedMovie, setSavedMovie] = useState(false);
     const cardSaveButtonClassName = (
-        `element__save-button  element-button ${isSavedMovie && 'element__save-button_active'}`
+        `element__save-button element-button ${isSavedMovie ? "element__save-button_active" : ""}`
     );
 
     function handleSaveClick() {
@@ -33,7 +33,9 @@ function MoviesCard({ card }) {
                         ></button>
                     )}
                 </div>
-                <img className="element__photo" src={card.image} alt={card.nameRU} />
+                <a className="element__link" href={card.trailerLink} target="_blank" rel="noreferrer">
+                    <img className="element__photo" src={card.image} alt={card.nameRU} />
+                </a>
             </article>
         </li>
     );

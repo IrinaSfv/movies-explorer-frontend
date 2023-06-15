@@ -14,12 +14,12 @@
     border-radius: 10px;
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
     align-items: center;
-    position: relative;
 }
 
 .promo__title {
-    margin: 160px 0 151px;
+    margin-top: 160px;
     font-style: normal;
     font-weight: 400;
     font-size: 50px;
@@ -40,7 +40,7 @@
     }
 
     .promo__title {
-        margin: 350px 0 314px;
+        margin-top: 350px;
         font-size: 40px;
         line-height: 130%;
         max-width: 100%;
@@ -58,7 +58,7 @@
     }
 
     .promo__title {
-        margin: 220px 0 212px;
+        margin-top: 220px;
         font-size: 29px;
         line-height: 128%;
     }
