@@ -6,13 +6,13 @@ function NavTab() {
         <nav className="promo__navigation">
             <ul className="promo__list">
                 <li className="promo__item">
-                    <a className="promo__link" href="#about-project"><button className="promo__button" type="button" aria-label="Кнопка перехода в раздел О проекте">О проекте</button></a>
+                    <a className="promo__link" href="#about-project">О проекте</a>
                 </li>
                 <li className="promo__item">
-                    <a className="promo__link" href="#techs"><button className="promo__button" type="button" aria-label="Кнопка перехода в раздел Технологии">Технологии</button></a>
+                    <a className="promo__link" href="#techs">Технологии</a>
                 </li>
                 <li className="promo__item">
-                    <a className="promo__link" href="#about-me"><button className="promo__button" type="button" aria-label="Кнопка перехода в раздел Студент">Студент</button></a>
+                    <a className="promo__link" href="#about-me">Студент</a>
                 </li>
             </ul>
         </nav>

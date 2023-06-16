@@ -15,14 +15,13 @@
 }
 
 .promo__link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     text-decoration: none;
-}
-
-.promo__button {
-    cursor: pointer;
     margin: 0;
     padding: 0;
-    border: none;
+    color: #000;
     border-radius: 10px;
     background-color: #E8E8E8;
     height: 36px;
@@ -30,7 +29,7 @@
     transition: 0.2s;
 }
 
-.promo__button:hover {
+.promo__link:hover {
     background-color: #3456F3;
     color: #FFF;
 }
@@ -41,8 +40,7 @@
         line-height: 160%;
         bottom: 17px;
     }
-
-    .promo__button {
+    .promo__link {
         border-radius: 6px;
         height: 26px;
         width: 82px;

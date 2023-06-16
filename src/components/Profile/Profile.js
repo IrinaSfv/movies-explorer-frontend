@@ -1,10 +1,11 @@
 import React from 'react';
 import { useState } from 'react';
 import './Profile.css';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import CurrentUser from '../../utils/CurrentUser';
 
 function Profile({ onUpdate }) {
+    const navigate = useNavigate();
     const [isDisabled, setIsDisabled] = useState(true);
     const [isActive, setIsActive] = useState(true); // false, чтобы проверить верстку неактивной кнопки
     const [nameValue, setNameValue] = useState(CurrentUser.name);
@@ -21,6 +22,10 @@ function Profile({ onUpdate }) {
     const profileSubmitButtonClassName = (
         `profile__submit-button submit-button ${isDisabled ? "profile__submit-button_disabled" : ""} ${!isActive ? "submit-button_inactive" : ""}`
     );
+
+    function handleExitButtonClick() {
+        navigate('/', { replace: true });
+    }
 
     function handleEditButtonClick() {
         setIsDisabled(!isDisabled);
@@ -88,13 +93,16 @@ function Profile({ onUpdate }) {
                     >Сохранить</button>
                 </form>
                 <button
-                    className="profile__button"
+                    className="profile__button profile__button_type_toggle"
                     type="button"
                     onClick={handleEditButtonClick}
                 >{isDisabled ? "Редактировать" : "Отменить"}</button>
-                <Link to="/" className="profile__link">
-                    <button className="profile__nav-button nav-button" type="button" aria-label="Кнопка выхода из аккаунта">Выйти из аккаунта</button>
-                </Link>
+                <button
+                    onClick={handleExitButtonClick}
+                    className="profile__button profile__button_type_exit nav-button"
+                    type="button"
+                    aria-label="Кнопка выхода из аккаунта"
+                >Выйти из аккаунта</button>
             </section>
         </main>
     );

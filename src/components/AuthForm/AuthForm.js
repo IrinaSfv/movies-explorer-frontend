@@ -1,10 +1,16 @@
 import React, { useState } from 'react';
 import './AuthForm.css';
 import logo from '../../images/logo.svg';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 function AuthForm({ type, title, formName, onSubmit, children, buttonTitle, linkText, link, linkTitle }) {
+    const navigate = useNavigate();
     const [isActive, setIsActive] = useState(true); // false, чтобы проверить верстку неактивной кнопки
+
+    function handleNavButtonClick() {
+        navigate(link, { replace: true });
+    }
+
     return (
         <section className="auth">
             <div className={`auth__container auth__container_type_${type}`}>
@@ -18,9 +24,12 @@ function AuthForm({ type, title, formName, onSubmit, children, buttonTitle, link
                 </form>
                 <div className="auth__link-container">
                     <p className="auth__link-text">{linkText}</p>
-                    <Link to={link} className="auth__link">
-                        <button className="auth__nav-button nav-button" type="button" aria-label="Кнопка регистрации и авторизации">{linkTitle}</button>
-                    </Link>
+                    <button
+                        onClick={handleNavButtonClick}
+                        className="auth__nav-button nav-button"
+                        type="button"
+                        aria-label="Кнопка регистрации и авторизации"
+                    >{linkTitle}</button>
                 </div>
             </div>
         </section>

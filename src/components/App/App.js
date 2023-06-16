@@ -27,8 +27,8 @@ function App() {
   // состояние отображения попапов
   const [isInfoPopupOpen, setIsInfoPopupOpen] = useState(false);
   // текст и картинка для отображения в инфо-попапе при входе и регистрации
-  const [infoTitle, setInfoTitle] = useState("");
-  const [infoImg, setInfoImg] = useState(null);
+  const [infoTitle, setInfoTitle] = useState("Успешно!");
+  const [infoImg, setInfoImg] = useState(SuccessImgSrc);
 
   function closeAllPopups() {
     setIsInfoPopupOpen(false);
