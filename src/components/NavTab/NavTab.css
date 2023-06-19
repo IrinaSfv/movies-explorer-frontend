@@ -1,0 +1,52 @@
+.promo__navigation {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 133%;
+    margin: 0 auto;
+}
+
+.promo__list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    gap: 10px;
+}
+
+.promo__link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    margin: 0;
+    padding: 0;
+    color: #000;
+    border-radius: 10px;
+    background-color: #E8E8E8;
+    height: 36px;
+    width: 96px;
+    transition: 0.2s;
+}
+
+.promo__link:hover {
+    background-color: #3456F3;
+    color: #FFF;
+}
+
+@media screen and (max-width: 564px) {
+    .promo__navigation {
+        font-size: 10px;
+        line-height: 160%;
+        bottom: 17px;
+    }
+    .promo__link {
+        border-radius: 6px;
+        height: 26px;
+        width: 82px;
+    }
+
+    .promo__list {
+        gap: 6px;
+    }
+}
