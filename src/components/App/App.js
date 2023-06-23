@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Routes, Route, useNavigate } from 'react-router-dom';
+import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import './App.css';
 import MainPage from '../../pages/MainPage/MainPage';
@@ -12,7 +12,7 @@ import NotFound from '../../pages/NotFound/NotFound';
 import InfoTooltip from '../InfoTooltip/InfoTooltip';
 import SuccessImgSrc from '../../images/Info_Success.svg';
 import FailImgSrc from '../../images/Info_Fail.svg';
-import CurrentUserContext from "../../contexts/CurrentUserContext";
+import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import * as mainApi from '../../utils/MainApi';
 import {
   REG_SUCCESS_MESSAGE,
@@ -25,7 +25,8 @@ import {
 } from "../../config/config";
 
 function App() {
-  // хук навигации
+  // хуки навигации
+  const pathLocation = useLocation().pathname;
   const navigate = useNavigate();
   // состояние авторизации пользователя
   const [loggedIn, setLoggedIn] = useState(false);
@@ -40,8 +41,6 @@ function App() {
   const [infoImg, setInfoImg] = useState(SuccessImgSrc);
   // карточки сохраненных фильмов
   const [savedMovies, setSavedMovies] = useState([]);
-  // токен текущего пользователя
-  const [currentToken, setCurrentToken] = useState(localStorage.getItem('token'));
   // текст на сабмит-кнопке в профиле пользователя
   const [editSubmitTitle, setEditSubmitTitle] = useState("Сохранить");
 
@@ -52,6 +51,7 @@ function App() {
 
   // загрузка сохраненных карточек и профиля пользователя
   useEffect(() => {
+    const currentToken = localStorage.getItem('token');
     if (loggedIn && currentToken) {
       Promise.all([mainApi.getUserInfo(currentToken), mainApi.getSavedMovies(currentToken)])
         .then(([resUser, resSavedMovies]) => {
@@ -62,7 +62,7 @@ function App() {
           console.log(`Ошибка при загрузке данных пользователя и карточек.`);
         });
     }
-  }, [loggedIn, currentToken]);
+  }, [loggedIn]);
 
   // регистрация пользователя в системе
   function handleRegistration({ name, email, password }) {
@@ -91,6 +91,7 @@ function App() {
     mainApi.loginUser(email, password)
       .then((data) => {
         if (data.token) {
+          localStorage.setItem('token', data.token)
           setLoggedIn(true);
           navigate('/movies', { replace: true });
         }
@@ -115,7 +116,6 @@ function App() {
     localStorage.removeItem('shortMovies');
     localStorage.removeItem('allMovies');
     localStorage.removeItem('token');
-    setCurrentToken('');
     navigate('/signin', { replace: true });
   }
 
@@ -127,11 +127,12 @@ function App() {
 
   // проверка токена
   function checkToken() {
+    const currentToken = localStorage.getItem('token');
     if (currentToken) {
       mainApi.getContent(currentToken).then((res) => {
         if (res) {
           setLoggedIn(true);
-          navigate("/movies", { replace: true });
+          navigate(pathLocation);
         }
       })
         .catch(() => {
@@ -147,6 +148,7 @@ function App() {
 
   // обновление информации в профиле пользователя
   function handleUpdateUser(userData) {
+    const currentToken = localStorage.getItem('token');
     setIsLoading(true);
     setEditSubmitTitle("Сохраняем...");
     const name = userData.name;
@@ -171,8 +173,8 @@ function App() {
   }
 
   function saveMovie(movieCard) {
-    const token = localStorage.getItem('token');
-    mainApi.saveMoviesCard(movieCard, token)
+    const currentToken = localStorage.getItem('token');
+    mainApi.saveMoviesCard(movieCard, currentToken)
       .then((savedCard) => {
         setSavedMovies([savedCard, ...savedMovies]);
         closeAllPopups();
@@ -188,8 +190,8 @@ function App() {
   }
 
   function deleteMovie(movieCard) {
-    const token = localStorage.getItem('token');
-    mainApi.deleteMoviesCard(movieCard._id, token)
+    const currentToken = localStorage.getItem('token');
+    mainApi.deleteMoviesCard(movieCard._id, currentToken)
       .then(() => {
         setSavedMovies((state) => state.filter((card) => card !== movieCard));
         closeAllPopups();

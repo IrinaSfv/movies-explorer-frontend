@@ -1,6 +1,6 @@
 import React, { useEffect, useContext, useState } from 'react';
 import './Profile.css';
-import CurrentUserContext from '../../contexts/CurrentUserContext';
+import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 import useForm from '../FormValidator/FormValidator';
 import { EMAIL_REGEX, USER_NAME_REGEX } from '../../config/config';
 
@@ -40,10 +40,6 @@ function Profile({ logOut, onUpdate, editSubmitTitle, isLoading }) {
 
         setIsDisabled(true);
     }
-
-    // useEffect(() => {
-    //     getUserInfo();
-    // }, []);
 
     useEffect(() => {
         let name = true;
