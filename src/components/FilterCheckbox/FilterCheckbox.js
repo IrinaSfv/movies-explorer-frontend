@@ -1,7 +1,7 @@
 import React from 'react';
 import './FilterCheckbox.css';
 
-function FilterCheckbox() {
+function FilterCheckbox({ onFilter, isActive }) {
     return (
         <div className="search__filter filter">
             <label className="filter__label" htmlFor="filter-checkbox">
@@ -11,6 +11,8 @@ function FilterCheckbox() {
                     id="filter-checkbox"
                     name="filter-checkbox"
                     type="checkbox"
+                    onChange={onFilter}
+                    checked={isActive}
                 />
                 <span className="filter__slider">Короткометражки</span>
             </label>

@@ -3,6 +3,7 @@
     margin: 0 auto;
     box-sizing: border-box;
     padding: 70px 70px 0;
+    position: relative;
 }
 
 .search::after {
@@ -35,7 +36,7 @@
     font-style: normal;
     font-weight: 400;
     font-size: 18px;
-    line-height: 111% ;
+    line-height: 111%;
     background-color: transparent;
     width: calc(100% - 150px);
     height: 100%;
@@ -70,6 +71,27 @@
 
 .search__button:hover {
     opacity: 0.8;
+}
+
+.search__error {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 18px;
+    color: #EE3465;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    visibility: hidden;
+}
+
+.search__error_active {
+    visibility: visible;
 }
 
 @media screen and (max-width: 896px) {

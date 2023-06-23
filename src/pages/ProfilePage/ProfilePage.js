@@ -2,11 +2,11 @@ import React from 'react';
 import Header from '../../components/Header/Header'
 import Profile from '../../components/Profile/Profile'
 
-function ProfilePage({ onUpdate }) {
+function ProfilePage({ onUpdate, logOut, isLoading, loggedIn }) {
   return (
     <>
-      <Header />
-      <Profile onUpdate={onUpdate} />
+      <Header loggedIn={loggedIn} />
+      <Profile onUpdate={onUpdate} logOut={logOut} isLoading={isLoading} />
     </>
   );
 }

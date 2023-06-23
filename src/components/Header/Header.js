@@ -1,12 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './Header.css';
 import Menu from '../../components/Menu/Menu'
 import logo from '../../images/logo.svg';
 
-function Header() {
+function Header({ loggedIn }) {
     const navigate = useNavigate();
-    const [isLoggedIn, setIsLoggedIn] = useState(true);
 
     function handleRegButton() {
         navigate('/signup', { replace: true });
@@ -21,7 +20,7 @@ function Header() {
             <Link to="/" className="header__logo-link">
                 <img className="header__logo" src={logo} alt="Логотип" />
             </Link>
-            {!isLoggedIn ? (
+            {!loggedIn ? (
                 <div className="header__buttons">
                     <button
                         onClick={handleRegButton}

@@ -1,32 +1,20 @@
 import React from 'react';
 import AuthForm from '../../components/AuthForm/AuthForm';
-import { useState } from 'react';
-import CurrentUser from '../../utils/CurrentUser';
+import useForm from '../../components/FormValidator/FormValidator';
+import { EMAIL_REGEX, USER_NAME_REGEX } from '../../config/config';
 
-function Register({ onRegister }) {
-  const [nameValue, setNameValue] = useState(CurrentUser.name);
-  const [emailValue, setEmailValue] = useState(CurrentUser.email);
-  const [passwordValue, setPasswordValue] = useState("password");
+function Register({ onRegister, isLoading }) {
+  const { enteredValues, errors, handleChange, isFormValid } = useForm();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onRegister();
-    setNameValue("");
-    setEmailValue("");
-    setPasswordValue("");
+    onRegister({
+      name: enteredValues.name,
+      email: enteredValues.email,
+      password: enteredValues.password,
+    });
   }
 
-  function changeName(evt) {
-    setNameValue(evt.target.value);
-  }
-
-  function changeEmail(evt) {
-    setEmailValue(evt.target.value);
-  }
-
-  function changePassword(evt) {
-    setPasswordValue(evt.target.value);
-  }
   return (
     <main className="content page__content">
       <AuthForm
@@ -38,58 +26,60 @@ function Register({ onRegister }) {
         linkText="Уже зарегистрированы?"
         link="/signin"
         linkTitle="Войти"
+        isDisabled={!isFormValid}
+        isLoading={isLoading}
       >
         <div className="auth__form-block auth__form-block_type_register">
           <label className="auth__label" htmlFor="name">Имя</label>
           <input
-            onChange={changeName}
-            className="auth__input auth__input_type_register"
+            onChange={handleChange}
+            pattern={USER_NAME_REGEX}
+            className={`auth__input auth__input_type_register ${errors.name ? "auth__input_type_error" : ""}`}
             type="text"
-            value={nameValue || ""}
+            value={enteredValues.name || ''}
             name="name"
             id="name"
-            placeholder="Имя"
+            // placeholder="Имя"
             minLength="2"
             maxLength="30"
             required
           />
-          <span id="name-error" className="auth__error">Что-то пошло не так...</span>
+          <span id="name-error" className={`auth__error ${errors.name ? "auth__error_active" : ""}`}>{errors.name}</span>
         </div>
         <div className="auth__form-block auth__form-block_type_register">
           <label className="auth__label" htmlFor="email">E-mail</label>
           <input
-            onChange={changeEmail}
-            className="auth__input auth__input_type_register"
+            onChange={handleChange}
+            pattern={EMAIL_REGEX}
+            className={`auth__input auth__input_type_register ${errors.email ? "auth__input_type_error" : ""}`}
             type="email"
-            value={emailValue || ""}
+            value={enteredValues.email || ''}
             name="email"
             id="email"
-            placeholder="E-mail"
+            // placeholder="E-mail"
             minLength="2"
             maxLength="30"
             required
           />
-          <span id="email-error" className="auth__error">Что-то пошло не так...</span>
+          <span id="email-error" className={`auth__error ${errors.email ? "auth__error_active" : ""}`}>{errors.email}</span>
         </div>
         <div className="auth__form-block auth__form-block_type_register">
           <label className="auth__label" htmlFor="password">Пароль</label>
           <input
-            onChange={changePassword}
-            // чтобы проверить верстку при неправильно введенных данных, добавить класс auth__input_type_error
-            className="auth__input auth__input_type_register"
+            onChange={handleChange}
+            className={`auth__input auth__input_type_register ${errors.password ? "auth__input_type_error" : ""}`}
             type="password"
-            value={passwordValue || ""}
+            value={enteredValues.password || ''}
             name="password"
             id="password"
-            placeholder="Пароль"
+            // placeholder="Пароль"
             minLength="6"
             maxLength="30"
             required />
           <span
             id="password-error"
-            // чтобы проверить верстку при неправильно введенных данных, добавить класс auth__error_active
-            className="auth__error"
-          >Что-то пошло не так...</span>
+            className={`auth__error ${errors.password ? "auth__error_active" : ""}`}
+          >{errors.password}</span>
         </div>
       </AuthForm>
     </main>

@@ -1,26 +1,19 @@
 import React from 'react';
 import AuthForm from '../../components/AuthForm/AuthForm';
-import { useState } from 'react';
-import CurrentUser from '../../utils/CurrentUser';
+import useForm from '../../components/FormValidator/FormValidator';
+import { EMAIL_REGEX } from '../../config/config';
 
-function Login({ onLogin }) {
-  const [emailValue, setEmailValue] = useState(CurrentUser.email);
-  const [passwordValue, setPasswordValue] = useState("password");
+function Login({ onLogin, isLoading }) {
+  const { enteredValues, errors, handleChange, isFormValid } = useForm();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onLogin();
-    setEmailValue("");
-    setPasswordValue("");
+    onLogin({
+      email: enteredValues.email,
+      password: enteredValues.password,
+    });
   }
 
-  function changeEmail(e) {
-    setEmailValue(e.target.value);
-  }
-
-  function changePassword(e) {
-    setPasswordValue(e.target.value);
-  }
   return (
     <main className="content page__content">
       <AuthForm
@@ -32,37 +25,40 @@ function Login({ onLogin }) {
         linkText="Ещё не зарегистрированы?"
         link="/signup"
         linkTitle="Регистрация"
+        isDisabled={!isFormValid}
+        isLoading={isLoading}
       >
         <div className="auth__form-block auth__form-block_type_login">
           <label className="auth__label" htmlFor="email">E-mail</label>
           <input
-            onChange={changeEmail}
-            className="auth__input auth__input_type_login"
+            onChange={handleChange}
+            pattern={EMAIL_REGEX}
+            className={`auth__input auth__input_type_login ${errors.email ? "auth__input_type_error" : ""}`}
             type="email"
-            value={emailValue || ""}
+            value={enteredValues.email || ''}
             name="email"
             id="email"
-            placeholder="E-mail"
+            // placeholder="E-mail"
             minLength="2"
             maxLength="30"
             required
           />
-          <span id="email-error" className="auth__error">Что-то пошло не так...</span>
+          <span id="email-error" className={`auth__error ${errors.email ? "auth__error_active" : ""}`}>{errors.email}</span>
         </div>
         <div className="auth__form-block auth__form-block_type_login">
           <label className="auth__label" htmlFor="password">Пароль</label>
           <input
-            onChange={changePassword}
-            className="auth__input auth__input_type_login"
+            onChange={handleChange}
+            className={`auth__input auth__input_type_login ${errors.password ? "auth__input_type_error" : ""}`}
             type="password"
-            value={passwordValue || ""}
+            value={enteredValues.password || ''}
             name="password"
             id="password"
-            placeholder="Пароль"
+            // placeholder="Пароль"
             minLength="6"
             maxLength="30"
             required />
-          <span id="password-error" className="auth__error">Что-то пошло не так...</span>
+          <span id="password-error" className={`auth__error ${errors.password ? "auth__error_active" : ""}`}>{errors.password}</span>
         </div>
       </AuthForm>
     </main>

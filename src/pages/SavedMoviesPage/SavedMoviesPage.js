@@ -3,11 +3,11 @@ import Header from '../../components/Header/Header'
 import SavedMovies from '../../components/SavedMovies/SavedMovies'
 import Footer from '../../components/Footer/Footer'
 
-function SavedMoviesPage() {
+function SavedMoviesPage({ loggedIn, savedMovies, onDeleteMovie }) {
   return (
     <>
-      <Header />
-      <SavedMovies />
+      <Header loggedIn={loggedIn} />
+      <SavedMovies savedMovies={savedMovies} onDeleteMovie={onDeleteMovie} />
       <Footer />
     </>
   );

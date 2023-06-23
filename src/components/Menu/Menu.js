@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './Menu.css';
 import Navigation from '../../components/Navigation/Navigation'
 
 function Menu() {
-    const [isOpenedMenu, setIsOpenedMenu] = React.useState(false);
+    const [isOpenedMenu, setIsOpenedMenu] = useState(false);
 
     function handleMenuClick() {
         setIsOpenedMenu(!isOpenedMenu);
