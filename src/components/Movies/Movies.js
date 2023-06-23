@@ -55,8 +55,7 @@ function Movies({ savedMovies, onSaveMovie, onDeleteMovie }) {
         } else {
             console.log('Загружаем фильмы с сервера');
             setIsLoading(true);
-            const currentToken = localStorage.getItem('token');
-            moviesApi.getMovies(currentToken)
+            moviesApi.getMovies()
                 .then((cardsData) => {
                     getFilterMovies(cardsData, searchQuery, isCheckboxActive);
                     setIsRequestError(false);

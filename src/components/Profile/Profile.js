@@ -7,8 +7,13 @@ import { EMAIL_REGEX, USER_NAME_REGEX } from '../../config/config';
 function Profile({ logOut, onUpdate, editSubmitTitle, isLoading }) {
     const [isDisabled, setIsDisabled] = useState(true);
     const currentUser = useContext(CurrentUserContext);
+    console.log(currentUser);
+
     const { enteredValues, errors, handleChange, isFormValid, resetForm } = useForm();
-    const [isLastValues, setIsLastValues] = useState(false);
+
+    const [name, setName] = useState(currentUser.name);
+    const [email, setEmail] = useState(currentUser.email);
+    const [isEqualValues, setEqualValues] = useState(true);
 
     useEffect(() => {
         if (currentUser) {
@@ -16,29 +21,65 @@ function Profile({ logOut, onUpdate, editSubmitTitle, isLoading }) {
         }
     }, [currentUser, resetForm]);
 
-    useEffect(() => {
-        if (currentUser.name === enteredValues.name && currentUser.email === enteredValues.email) {
-            setIsLastValues(true);
-        } else {
-            setIsLastValues(false);
-        }
-    }, [enteredValues]);
-
     function handleSubmit(e) {
         e.preventDefault();
-        onUpdate({
-            name: enteredValues.name,
-            email: enteredValues.email,
-        });
+
+        let newUserName = "";
+        let newUserEmail = "";
+
+        enteredValues.name ? newUserName = enteredValues.name : newUserName = currentUser.name;
+        enteredValues.email ? newUserEmail = enteredValues.email : newUserEmail = currentUser.email;
+
+        if (!isEqualValues) {
+            onUpdate({
+                name: newUserName,
+                email: newUserEmail,
+            });
+            resetForm();
+        }
+
         setIsDisabled(true);
     }
+
+    // useEffect(() => {
+    //     getUserInfo();
+    // }, []);
+
+    useEffect(() => {
+        let name = true;
+        let email = true;
+        if (enteredValues.name) {
+            name = enteredValues.name === currentUser.name;
+        }
+        if (enteredValues.email) {
+            email = enteredValues.email === currentUser.email;
+        }
+        setEqualValues(name && email);
+    }, [enteredValues.name, enteredValues.email]);
+
+    useEffect(() => {
+        if (!isLoading) {
+            setName(currentUser.name);
+            setEmail(currentUser.email);
+        }
+    }, [currentUser, isLoading]);
+
+    useEffect(() => {
+        if (enteredValues.name) {
+            setName(enteredValues.name);
+        }
+        if (enteredValues.email) {
+            setEmail(enteredValues.email);
+        }
+    }, [enteredValues.name, enteredValues.email]);
+
 
     const profileLabelClassName = (
         `profile__text ${isDisabled ? "profile__text_disabled" : ""}`
     );
 
     const profileSubmitButtonClassName = (
-        `profile__submit-button submit-button ${isDisabled ? "profile__submit-button_disabled" : ""} ${!isFormValid || isLoading || isLastValues ? "submit-button_inactive" : ""}`
+        `profile__submit-button submit-button ${isDisabled ? "profile__submit-button_disabled" : ""} ${!isFormValid || isLoading || isEqualValues ? "submit-button_inactive" : ""}`
     );
 
     function handleEditButtonClick() {
@@ -61,7 +102,7 @@ function Profile({ logOut, onUpdate, editSubmitTitle, isLoading }) {
                             type="text"
                             // placeholder="Имя"
                             className={`profile__data ${isDisabled ? "profile__data_disabled" : ""} ${errors.name ? "profile__data_type_error" : ""}`}
-                            value={enteredValues.name || ''}
+                            value={`${enteredValues.name ? enteredValues.name : name}`}
                             minLength="2"
                             maxLength="30"
                         />
@@ -79,9 +120,9 @@ function Profile({ logOut, onUpdate, editSubmitTitle, isLoading }) {
                             id="email"
                             name="email"
                             type="email"
-                            placeholder="E-mail"
+                            // placeholder="E-mail"
                             className={`profile__data ${isDisabled ? "profile__data_disabled" : ""} ${errors.email ? "profile__data_type_error" : ""}`}
-                            value={enteredValues.email || ''}
+                            value={`${enteredValues.email ? enteredValues.email : email}`}
                             minLength="2"
                             maxLength="30"
                         />
@@ -90,7 +131,7 @@ function Profile({ logOut, onUpdate, editSubmitTitle, isLoading }) {
                     <button
                         className={profileSubmitButtonClassName}
                         type="submit"
-                        disabled={!isFormValid ? true : false}
+                        disabled={!isFormValid || isLoading || isEqualValues ? true : false}
                     >{editSubmitTitle}</button>
                 </form>
                 <button

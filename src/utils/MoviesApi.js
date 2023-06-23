@@ -10,11 +10,10 @@ export const checkResponse = (res) => {
 };
 
 //Получение массива исходных карточек
-export const getMovies = (token) => {
+export const getMovies = () => {
     return fetch(`${MOVIES_BASE_URL}`, {
         method: 'GET',
         headers: {
-            'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json',
         },
     }).then((res) => checkResponse(res))
