@@ -4,7 +4,7 @@ import CurrentUserContext from '../../contexts/CurrentUserContext';
 import useForm from '../FormValidator/FormValidator';
 import { EMAIL_REGEX, USER_NAME_REGEX } from '../../config/config';
 
-function Profile({ logOut, onUpdate, isLoading }) {
+function Profile({ logOut, onUpdate, editSubmitTitle, isLoading }) {
     const [isDisabled, setIsDisabled] = useState(true);
     const currentUser = useContext(CurrentUserContext);
     const { enteredValues, errors, handleChange, isFormValid, resetForm } = useForm();
@@ -91,7 +91,7 @@ function Profile({ logOut, onUpdate, isLoading }) {
                         className={profileSubmitButtonClassName}
                         type="submit"
                         disabled={!isFormValid ? true : false}
-                    >Сохранить</button>
+                    >{editSubmitTitle}</button>
                 </form>
                 <button
                     className="profile__button profile__button_type_toggle"

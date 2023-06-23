@@ -9,6 +9,7 @@ function SearchForm({ onSearch, onFilter, isCheckboxActive }) {
     const [searchValue, setSearchValue] = useState("");
     const [isError, setIsError] = useState(false);
 
+    // если мы на странице фильмов, получаем из хранилища поисковый запрос
     useEffect(() => {
         if (currentLocation === '/movies' && localStorage.getItem('movieSearch')) {
             setSearchValue(localStorage.getItem('movieSearch'));

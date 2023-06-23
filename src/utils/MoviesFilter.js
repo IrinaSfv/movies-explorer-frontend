@@ -2,12 +2,12 @@ import { SHORT_MOVIES_DURATION } from '../config/config';
 
 export const checkResponse = (res) => {
     if (res.ok) {
-        return res.json(); //если да, то возвращаем полученные данные
+        return res.json();
     }
-    return Promise.reject(`Ошибка: ${res.status}`); //иначе возвращаем ошибку
+    return Promise.reject(`Ошибка: ${res.status}`); 
 };
 
-//фильтр фильмов по запросу
+//фильтр фильмов по запросу (форма)
 export function filterMovies(movies, query) {
     const moviesByQuery = movies.filter((movie) => {
         const movieRu = String(movie.nameRU).toLowerCase().trim();
@@ -18,7 +18,7 @@ export function filterMovies(movies, query) {
     return moviesByQuery;
 }
 
-//фильтр фильмов по длительности
+//фильтр фильмов по длительности (чекбокс)
 export function filterDuration(movies) {
     return movies.filter((movie) => movie.duration < SHORT_MOVIES_DURATION);
 }

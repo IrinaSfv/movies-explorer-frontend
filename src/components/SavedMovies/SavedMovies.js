@@ -4,24 +4,30 @@ import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import { filterMovies, filterDuration } from '../../utils/MoviesFilter';
 
 function SavedMovies({ savedMovies, onDeleteMovie }) {
-    const [filteredMovies, setFilteredMovies] = useState(savedMovies); //отфильтрованные по запросу и чекбоксу
-    const [isShortMovies, setIsShortMovies] = useState(false); //включен ли чекбокс короткометражек
-    const [isNotFound, setIsNotFound] = useState(false); //фильмы по запросу не найдены
+    // массив фильмов, отфильтрованный по запросу и длительности
+    const [filteredMovies, setFilteredMovies] = useState(savedMovies);
+    // статус состояния чекбокса короткометражек
+    const [isCheckboxActive, setIsCheckboxActive] = useState(false);
+    // ошибка при отсутствии найденных фильмов
+    const [isNotFound, setIsNotFound] = useState(false); 
+    // запрос пользователя
     const [searchQuery, setSearchQuery] = useState('');
 
-    //submit
+    // меняем запрос в поисковой строке
     function onSearchMovies(query) {
         setSearchQuery(query);
     }
 
+    // переключаем состояние чекбокса
     function handleShortMovies() {
-        setIsShortMovies(!isShortMovies);
+        setIsCheckboxActive(!isCheckboxActive);
     }
 
+    // получаем отфильтрованные фильмы
     useEffect(() => {
         const moviesList = filterMovies(savedMovies, searchQuery);
-        setFilteredMovies(isShortMovies ? filterDuration(moviesList) : moviesList);
-    }, [savedMovies, isShortMovies, searchQuery]);
+        setFilteredMovies(isCheckboxActive ? filterDuration(moviesList) : moviesList);
+    }, [savedMovies, isCheckboxActive, searchQuery]);
 
     useEffect(() => {
         if (filteredMovies.length === 0) {

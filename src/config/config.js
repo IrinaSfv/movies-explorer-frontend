@@ -9,7 +9,6 @@ const MOVIES_BASE_URL = "https://api.nomoreparties.co/beatfilm-movies";
 const REG_SUCCESS_MESSAGE = "Вы успешно зарегистрировались!";
 const REG_UNSUCCESS_MESSAGE = "Не получилось зарегистрироваться! Попробуйте ещё раз";
 const LOGIN_UNSUCCESS_MESSAGE = "Не получилось войти! Попробуйте ещё раз.";
-// const LOGOUT_UNSUCCESS_MESSAGE = "Не получилось выйти! Попробуйте ещё раз";
 const AUTH_UNSUCCESS_MESSAGE = "Необходима авторизация!";
 const USER_INFO_SUCCESS_MESSAGE = "Данные успешно обновлены!";
 const USER_INFO_UNSUCCESS_MESSAGE = "Ошибка при обновлении данных! Попробуйте ещё раз.";
@@ -38,7 +37,6 @@ export {
   REG_SUCCESS_MESSAGE,
   REG_UNSUCCESS_MESSAGE,
   LOGIN_UNSUCCESS_MESSAGE,
-  // LOGOUT_UNSUCCESS_MESSAGE,
   AUTH_UNSUCCESS_MESSAGE,
   USER_INFO_SUCCESS_MESSAGE,
   USER_INFO_UNSUCCESS_MESSAGE,

@@ -81,18 +81,6 @@ export const editUserInfo = (userName, userEmail, token) => {
     }).then((res) => checkResponse(res))
 }
 
-// //Выход пользователя из системы
-// export const logoutUser = () => {
-//     return fetch(`${MAIN_BASE_URL}/signout`, {
-//         method: "POST",
-//         headers: {
-//             'Accept': 'application/json',
-//             'Content-Type': 'application/json',
-//         },
-//         credentials: "include",
-//     }).then((res) => checkResponse(res))
-// }
-
 // Получение сохраненных карточек
 export const getSavedMovies = (token) => {
     return fetch(`${MAIN_BASE_URL}/movies`, {

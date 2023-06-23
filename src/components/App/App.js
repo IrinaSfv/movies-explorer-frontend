@@ -31,24 +31,18 @@ function App() {
   const [loggedIn, setLoggedIn] = useState(false);
   // состояние загрузки во время сабмита форм
   const [isLoading, setIsLoading] = useState(false);
-  // email для отображения в хедере
-  const [userName, setUserName] = useState("");
   // текущий пользователь
   const [currentUser, setCurrentUser] = useState({});
-  // состояние отображения попапов
+  // состояние отображения попапа
   const [isInfoPopupOpen, setIsInfoPopupOpen] = useState(false);
-  // текст и картинка для отображения в инфо-попапе при входе и регистрации
+  // текст и картинка для отображения в инфо-попапе
   const [infoTitle, setInfoTitle] = useState("Успешно!");
   const [infoImg, setInfoImg] = useState(SuccessImgSrc);
-
   // карточки сохраненных фильмов
   const [savedMovies, setSavedMovies] = useState([]);
-  // все фильмы из БД
-  const [allMovies, setAllMovies] = useState([]);
-
   // токен текущего пользователя
   const [currentToken, setCurrentToken] = useState(localStorage.getItem('token'));
-  // тексты на сабмит-кнопках попапов
+  // текст на сабмит-кнопке в профиле пользователя
   const [editSubmitTitle, setEditSubmitTitle] = useState("Сохранить");
 
   // проверка токена каждый раз, когда пользователь открывает страницу
@@ -56,13 +50,11 @@ function App() {
     checkToken();
   }, []);
 
-  // загрузка карточек и профиля пользователя
+  // загрузка сохраненных карточек и профиля пользователя
   useEffect(() => {
     if (loggedIn && currentToken) {
       Promise.all([mainApi.getUserInfo(currentToken), mainApi.getSavedMovies(currentToken)])
         .then(([resUser, resSavedMovies]) => {
-          console.log(resUser);
-          console.log(resSavedMovies);
           setCurrentUser(resUser);
           setSavedMovies(resSavedMovies.reverse());
         })
@@ -141,7 +133,7 @@ function App() {
     }
   }
 
-  // закрытие попапов
+  // закрытие всех попапов в проекте
   function closeAllPopups() {
     setIsInfoPopupOpen(false);
   }
@@ -236,6 +228,7 @@ function App() {
           <Route path="/profile" element={<ProtectedRoute
             element={ProfilePage}
             onUpdate={handleUpdateUser}
+            editSubmitTitle={editSubmitTitle}
             logOut={handleLogout}
             isLoading={isLoading}
             loggedIn={loggedIn}

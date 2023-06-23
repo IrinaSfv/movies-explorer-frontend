@@ -1,17 +1,13 @@
 import React from 'react';
-import { useState } from 'react';
-import { useLocation } from 'react-router-dom';
 import './MoviesCard.css';
+import { CARDS_IMAGE_BASE_URL } from '../../config/config'
 
 function MoviesCard({ card, savedCard, onSaveMovie, onDeleteMovie, isSavedFilms, savedMovies }) {
-    const currentLocation = useLocation().pathname;
-    // const [isSavedMovie, setSavedMovie] = useState(false);
-    // const isSavedFilms = false; //временно
-
     const cardSaveButtonClassName = (
         `element__save-button element-button ${savedCard ? "element__save-button_active" : ""}`
     );
 
+    // меняем отображение карточки на странице фильмов
     function handleCardClick() {
         if (savedCard) {
             onDeleteMovie(savedMovies.filter((movie) => movie.movieId === card.id)[0]);
@@ -20,6 +16,7 @@ function MoviesCard({ card, savedCard, onSaveMovie, onDeleteMovie, isSavedFilms,
         }
     }
 
+    // удаляем карточку на странице сохраненных фильмов
     function handleCardDelete() {
         onDeleteMovie(card);
     }
@@ -56,7 +53,7 @@ function MoviesCard({ card, savedCard, onSaveMovie, onDeleteMovie, isSavedFilms,
                     )}
                 </div>
                 <a className="element__link" href={card.trailerLink} target="_blank" rel="noreferrer">
-                    <img className="element__photo" src={isSavedFilms ? card.image : `https://api.nomoreparties.co/${card.image.url}`} alt={card.nameRU} />
+                    <img className="element__photo" src={isSavedFilms ? card.image : `${CARDS_IMAGE_BASE_URL}/${card.image.url}`} alt={card.nameRU} />
                 </a>
             </article>
         </li>

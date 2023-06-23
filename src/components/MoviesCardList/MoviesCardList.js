@@ -15,12 +15,12 @@ import {
 } from "../../config/config";
 
 function MoviesCardList({ filteredMovies, savedMovies, onSaveMovie, onDeleteMovie, isSavedFilms, isRequestError, isNotFound, isLoading }) {
+    // текущая страница
     const currentLocation = useLocation().pathname;
+    // количество показываемых карточек
     const [shownMoviesQuantity, setShownMoviesQuantity] = useState(0);
-    // const [isMovies, setIsMovies] = useState(true);
 
-    console.log(filteredMovies);
-    
+    // устанавливем видимое количество карточек на странице в зависимости от разрешения экрана
     function setShownQuantity() {
         const display = window.innerWidth;
         if (display > 1279) {
@@ -32,16 +32,19 @@ function MoviesCardList({ filteredMovies, savedMovies, onSaveMovie, onDeleteMovi
         }
     }
 
+    // колличество карточек устанавливается при открытии страницы
     useEffect(() => {
         setShownQuantity();
     }, []);
 
+    // откладываем работу функции в случае изменения ширины экрана в отладчике
     useEffect(() => {
         setTimeout(() => {
             window.addEventListener('resize', setShownQuantity);
         }, 500);
     });
 
+    // функция подгрузки карточек в зависимости от разрешения экрана
     function loadMoreMovies() {
         const display = window.innerWidth;
         if (display > 1279) {
@@ -53,21 +56,10 @@ function MoviesCardList({ filteredMovies, savedMovies, onSaveMovie, onDeleteMovi
         }
     }
 
+    // получение сохраненной карточки
     function getSavedMovieCard(savedMovies, card) {
         return savedMovies.find((savedMovie) => savedMovie.movieId === card.id);
     }
-
-    // function setCards() {
-    //     let cards = [];
-    //     if (currentLocation === '/movies') {
-    //         cards = filteredMovies.slice(0, shownMoviesQuantity);
-    //         console.log(cards);
-    //     } else if (currentLocation === '/saved-movies') {
-    //         cards = filteredMovies;
-    //         console.log(cards);
-    //     }
-    //     return cards;
-    // }
 
     return (
         <section className="cards" aria-label="Карточки фильмов">
