@@ -5,6 +5,8 @@ Frontend часть приложения для поиска фильмов.
 
 IP 158.160.28.96
 
+Frontend: https://movies.irinasfv.nomoredomains.rocks
+Backend: https://api.movies.irinasfv.nomoredomains.rocks
 Макет в Figma: https://yadi.sk/d/1K3z79UljeLpgg
 
 ### Функциональность
