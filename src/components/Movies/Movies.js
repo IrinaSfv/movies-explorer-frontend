@@ -5,8 +5,6 @@ import * as moviesApi from '../../utils/MoviesApi';
 import { filterMovies, filterDuration } from '../../utils/MoviesFilter';
 
 function Movies({ savedMovies, onSaveMovie, onDeleteMovie }) {
-    // текущий токен пользователя
-    const currentToken = localStorage.getItem('token');
     // статус загрузки изначального массива фильмов
     const [isLoading, setIsLoading] = useState(false);
     // массив фильмов, отфильтрованный по запросу
@@ -57,8 +55,8 @@ function Movies({ savedMovies, onSaveMovie, onDeleteMovie }) {
         } else {
             console.log('Загружаем фильмы с сервера');
             setIsLoading(true);
-            moviesApi
-                .getMovies(currentToken)
+            const currentToken = localStorage.getItem('token');
+            moviesApi.getMovies(currentToken)
                 .then((cardsData) => {
                     getFilterMovies(cardsData, searchQuery, isCheckboxActive);
                     setIsRequestError(false);
