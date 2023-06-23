@@ -95,7 +95,8 @@ function App() {
           navigate('/movies', { replace: true });
         }
       })
-      .catch(() => {
+      .catch((err) => {
+        handleUnauthorized(err);
         setInfoTitle(LOGIN_UNSUCCESS_MESSAGE);
         setInfoImg(FailImgSrc);
         setIsInfoPopupOpen(true);
@@ -116,6 +117,12 @@ function App() {
     localStorage.removeItem('token');
     setCurrentToken('');
     navigate('/signin', { replace: true });
+  }
+
+  function handleUnauthorized(err) {
+    if (err === 'Ошибка: 401') {
+      handleLogout();
+    }
   }
 
   // проверка токена
@@ -150,7 +157,8 @@ function App() {
         setInfoTitle(USER_INFO_SUCCESS_MESSAGE);
         setInfoImg(SuccessImgSrc);
       })
-      .catch(() => {
+      .catch((err) => {
+        handleUnauthorized(err);
         setInfoTitle(USER_INFO_UNSUCCESS_MESSAGE);
         setInfoImg(FailImgSrc);
         console.log(`Ошибка при обновлении данных.`)
@@ -170,7 +178,8 @@ function App() {
         closeAllPopups();
         console.log(`Карточка cохранена.`)
       })
-      .catch(() => {
+      .catch((err) => {
+        handleUnauthorized(err);
         console.log(`Ошибка при сохранении карточки.`)
         setInfoTitle(MOVIE_SAVE_UNSUCCESS_MESSAGE);
         setInfoImg(FailImgSrc);
@@ -186,7 +195,8 @@ function App() {
         closeAllPopups();
         console.log(`Карточка удалена.`)
       })
-      .catch(() => {
+      .catch((err) => {
+        handleUnauthorized(err);
         console.log(`Ошибка при удалении карточки.`)
         setInfoTitle(MOVIE_DELETE_UNSUCCESS_MESSAGE);
         setInfoImg(FailImgSrc);
