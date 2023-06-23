@@ -1,6 +1,8 @@
 ## Movies-explorer
 Frontend часть приложения для поиска фильмов. 
 
+Ссылка на пул реквест: https://github.com/IrinaSfv/movies-explorer-frontend/pull/2
+
 ## Ссылки на проект
 
 IP 158.160.28.96
