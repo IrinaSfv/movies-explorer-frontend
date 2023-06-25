@@ -78,6 +78,8 @@ function Profile({ logOut, onUpdate, editSubmitTitle, isLoading }) {
     );
 
     function handleEditButtonClick() {
+        enteredValues.name = currentUser.name;
+        enteredValues.email = currentUser.email;
         setIsDisabled(!isDisabled);
     }
 
