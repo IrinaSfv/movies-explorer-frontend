@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
-import { Routes, Route, useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
+import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
+import LoggedIn from "../LoggedIn/LoggedIn";
 import './App.css';
 import MainPage from '../../pages/MainPage/MainPage';
 import MoviesPage from '../../pages/MoviesPage/MoviesPage';
@@ -11,72 +13,201 @@ import NotFound from '../../pages/NotFound/NotFound';
 import InfoTooltip from '../InfoTooltip/InfoTooltip';
 import SuccessImgSrc from '../../images/Info_Success.svg';
 import FailImgSrc from '../../images/Info_Fail.svg';
+import { CurrentUserContext } from "../../contexts/CurrentUserContext";
+import * as mainApi from '../../utils/MainApi';
+import {
+  REG_SUCCESS_MESSAGE,
+  REG_UNSUCCESS_MESSAGE,
+  LOGIN_UNSUCCESS_MESSAGE,
+  USER_INFO_SUCCESS_MESSAGE,
+  USER_INFO_UNSUCCESS_MESSAGE,
+  MOVIE_SAVE_UNSUCCESS_MESSAGE,
+  MOVIE_DELETE_UNSUCCESS_MESSAGE,
+} from "../../config/config";
 
 function App() {
-
-  // состояния успеха для проверки верстки: 
-  const [isSuccessReg, setIsSuccessReg] = useState(true);
-  const [isSuccessLogin, setIsSuccessLogin] = useState(false);
-  const [isSuccessUpdate, setIsSuccessUpdate] = useState(false);
-
-  // хук навигации
+  // хуки навигации
+  const pathLocation = useLocation().pathname;
   const navigate = useNavigate();
   // состояние авторизации пользователя
   const [loggedIn, setLoggedIn] = useState(false);
-
-  // состояние отображения попапов
+  // состояние загрузки во время сабмита форм
+  const [isLoading, setIsLoading] = useState(false);
+  // текущий пользователь
+  const [currentUser, setCurrentUser] = useState({});
+  // состояние отображения попапа
   const [isInfoPopupOpen, setIsInfoPopupOpen] = useState(false);
-  // текст и картинка для отображения в инфо-попапе при входе и регистрации
+  // текст и картинка для отображения в инфо-попапе
   const [infoTitle, setInfoTitle] = useState("Успешно!");
   const [infoImg, setInfoImg] = useState(SuccessImgSrc);
+  // карточки сохраненных фильмов
+  const [savedMovies, setSavedMovies] = useState([]);
+  // текст на сабмит-кнопке в профиле пользователя
+  const [editSubmitTitle, setEditSubmitTitle] = useState("Сохранить");
 
-  function closeAllPopups() {
-    setIsInfoPopupOpen(false);
-  }
+  // проверка токена каждый раз, когда пользователь открывает страницу
+  useEffect(() => {
+    checkToken();
+  }, []);
+
+  // загрузка сохраненных карточек и профиля пользователя
+  useEffect(() => {
+    const currentToken = localStorage.getItem('token');
+    if (loggedIn && currentToken) {
+      Promise.all([mainApi.getUserInfo(currentToken), mainApi.getSavedMovies(currentToken)])
+        .then(([resUser, resSavedMovies]) => {
+          setCurrentUser(resUser);
+          setSavedMovies(resSavedMovies.reverse());
+        })
+        .catch(() => {
+          console.log(`Ошибка при загрузке данных пользователя и карточек.`);
+        });
+    }
+  }, [loggedIn]);
 
   // регистрация пользователя в системе
-  function handleRegistration() {
-    if (isSuccessReg === true) {
-      setInfoTitle("Вы успешно зарегистрировались!");
-      setInfoImg(SuccessImgSrc);
-      navigate('/signin', { replace: true });
-      setIsInfoPopupOpen(true);
-    } else {
-      setInfoTitle("Что-то пошло не так! Попробуйте ещё раз.");
-      setInfoImg(FailImgSrc);
-      setIsInfoPopupOpen(true);
-    }
+  function handleRegistration({ name, email, password }) {
+    setIsLoading(true);
+    mainApi.registerUser(name, email, password)
+      .then((res) => {
+        if (res) {
+          setInfoTitle(REG_SUCCESS_MESSAGE);
+          setInfoImg(SuccessImgSrc);
+          // navigate('/signin', { replace: true });
+          handleLogin({ email, password });
+        }
+      })
+      .catch(() => {
+        setInfoTitle(REG_UNSUCCESS_MESSAGE);
+        setInfoImg(FailImgSrc);
+      })
+      .finally(() => {
+        setIsInfoPopupOpen(true);
+        setIsLoading(false);
+      });
   }
 
   // авторизация пользователя
-  function handleLogin() {
-    if (isSuccessLogin === true) {
-      setLoggedIn(true);
-      navigate('/movies', { replace: true });
-    } else {
-      setInfoTitle("Не получилось войти! Попробуйте ещё раз.");
-      setInfoImg(FailImgSrc);
-      setIsInfoPopupOpen(true);
-    }
-  }
-
-  // обновление информации в профиле пользователя
-  function handleUpdateUser() {
-    if (isSuccessUpdate === true) {
-      setInfoTitle("Данные успешно обновлены!");
-      setInfoImg(SuccessImgSrc);
-      setIsInfoPopupOpen(true);
-    } else {
-      setInfoTitle("Ошибка при обновлении данных! Попробуйте ещё раз.");
-      setInfoImg(FailImgSrc);
-      setIsInfoPopupOpen(true);
-    }
+  function handleLogin({ email, password }) {
+    setIsLoading(true);
+    mainApi.loginUser(email, password)
+      .then((data) => {
+        if (data.token) {
+          localStorage.setItem('token', data.token)
+          setLoggedIn(true);
+          navigate('/movies', { replace: true });
+        }
+      })
+      .catch((err) => {
+        handleUnauthorized(err);
+        setInfoTitle(LOGIN_UNSUCCESS_MESSAGE);
+        setInfoImg(FailImgSrc);
+        setIsInfoPopupOpen(true);
+        console.log(`Ошибка при входе в систему`);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   }
 
   // выход пользователя из системы
   function handleLogout() {
     setLoggedIn(false);
+    localStorage.removeItem('movies');
+    localStorage.removeItem('movieSearch');
+    localStorage.removeItem('shortMovies');
+    localStorage.removeItem('allMovies');
+    localStorage.removeItem('token');
     navigate('/', { replace: true });
+  }
+
+  function handleUnauthorized(err) {
+    if (err === 'Ошибка: 401') {
+      handleLogout();
+    }
+  }
+
+  // проверка токена
+  function checkToken() {
+    const currentToken = localStorage.getItem('token');
+    if (currentToken) {
+      mainApi.getContent(currentToken).then((res) => {
+        if (res) {
+          setLoggedIn(true);
+          navigate(pathLocation);
+        }
+      })
+        .catch(() => {
+          console.log(`Ошибка при проверке токена`);
+        });
+    }
+  }
+
+  // закрытие всех попапов в проекте
+  function closeAllPopups() {
+    setIsInfoPopupOpen(false);
+  }
+
+  // обновление информации в профиле пользователя
+  function handleUpdateUser(userData) {
+    const currentToken = localStorage.getItem('token');
+    setIsLoading(true);
+    setEditSubmitTitle("Сохраняем...");
+    const name = userData.name;
+    const email = userData.email;
+    mainApi.editUserInfo(name, email, currentToken)
+      .then((res) => {
+        setCurrentUser(res);
+        setInfoTitle(USER_INFO_SUCCESS_MESSAGE);
+        setInfoImg(SuccessImgSrc);
+      })
+      .catch((err) => {
+        handleUnauthorized(err);
+        setInfoTitle(USER_INFO_UNSUCCESS_MESSAGE);
+        setInfoImg(FailImgSrc);
+        console.log(`Ошибка при обновлении данных.`)
+      })
+      .finally(() => {
+        setIsLoading(false);
+        setIsInfoPopupOpen(true);
+        setEditSubmitTitle("Сохранить")
+      });
+  }
+
+  // сохранение фильма в избранном
+  function saveMovie(movieCard) {
+    const currentToken = localStorage.getItem('token');
+    mainApi.saveMoviesCard(movieCard, currentToken)
+      .then((savedCard) => {
+        setSavedMovies([savedCard, ...savedMovies]);
+        closeAllPopups();
+        console.log(`Карточка cохранена.`)
+      })
+      .catch((err) => {
+        handleUnauthorized(err);
+        console.log(`Ошибка при сохранении карточки.`)
+        setInfoTitle(MOVIE_SAVE_UNSUCCESS_MESSAGE);
+        setInfoImg(FailImgSrc);
+        setIsInfoPopupOpen(true);
+      });
+  }
+
+  // удаление фильма из избранного
+  function deleteMovie(movieCard) {
+    const currentToken = localStorage.getItem('token');
+    mainApi.deleteMoviesCard(movieCard._id, currentToken)
+      .then(() => {
+        setSavedMovies((state) => state.filter((card) => card !== movieCard));
+        closeAllPopups();
+        console.log(`Карточка удалена.`)
+      })
+      .catch((err) => {
+        handleUnauthorized(err);
+        console.log(`Ошибка при удалении карточки.`)
+        setInfoTitle(MOVIE_DELETE_UNSUCCESS_MESSAGE);
+        setInfoImg(FailImgSrc);
+        setIsInfoPopupOpen(true);
+      });
   }
 
   // закрытие попапа при нажатии на Escape
@@ -88,31 +219,61 @@ function App() {
 
   // закрытие попапа при клике на оверлей
   function handleOverlay(e) {
-    if (!e.target.closest('.popup__container')) {
+    if (!e.target.closest('.popup-container')) {
       closeAllPopups();
     }
   }
 
   return (
-    <>
-      <Routes>
-        <Route path="/" element={<MainPage />} />
-        <Route path="/movies" element={<MoviesPage />} />
-        <Route path="/saved-movies" element={<SavedMoviesPage />} />
-        <Route path="/profile" element={<ProfilePage onUpdate={handleUpdateUser} />} />
-        <Route path="/signin" element={<Login onLogin={handleLogin} />} />
-        <Route path="/signup" element={<Register onRegister={handleRegistration} />} />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
-      <InfoTooltip
-        isOpen={isInfoPopupOpen}
-        onClose={closeAllPopups}
-        infoTitle={infoTitle}
-        infoImg={infoImg}
-        onEscClick={handleEscClose}
-        onOverlayClick={handleOverlay}
-      />
-    </>
+    <CurrentUserContext.Provider value={currentUser}>
+      <>
+        <Routes>
+          <Route path="/movies" element={<ProtectedRoute
+            element={MoviesPage}
+            loggedIn={loggedIn}
+            savedMovies={savedMovies}
+            onSaveMovie={saveMovie}
+            onDeleteMovie={deleteMovie}
+          />} />
+          <Route path="/saved-movies" element={<ProtectedRoute
+            element={SavedMoviesPage}
+            loggedIn={loggedIn}
+            savedMovies={savedMovies}
+            onDeleteMovie={deleteMovie}
+          />} />
+          <Route path="/profile" element={<ProtectedRoute
+            element={ProfilePage}
+            onUpdate={handleUpdateUser}
+            editSubmitTitle={editSubmitTitle}
+            logOut={handleLogout}
+            isLoading={isLoading}
+            loggedIn={loggedIn}
+          />} />
+          <Route path="/" element={<MainPage loggedIn={loggedIn} />} />
+          <Route path="/signin" element={<LoggedIn 
+            element={Login}
+            loggedIn={loggedIn}
+            onLogin={handleLogin}
+            isLoading={isLoading}
+          />} />
+          <Route path="/signup" element={<LoggedIn 
+            element={Register}
+            loggedIn={loggedIn}
+            onRegister={handleRegistration}
+            isLoading={isLoading}
+          />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+        <InfoTooltip
+          isOpen={isInfoPopupOpen}
+          onClose={closeAllPopups}
+          infoTitle={infoTitle}
+          infoImg={infoImg}
+          onEscClick={handleEscClose}
+          onOverlayClick={handleOverlay}
+        />
+      </>
+    </CurrentUserContext.Provider>
   );
 }
 

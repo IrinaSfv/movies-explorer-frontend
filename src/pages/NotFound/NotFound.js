@@ -6,7 +6,7 @@ function NotFound() {
   const navigate = useNavigate();
 
   function handleBackClick() {
-    navigate(-1);
+    navigate(-2, { replace: true });
   }
 
   return (
