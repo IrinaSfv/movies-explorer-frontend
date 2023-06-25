@@ -1,6 +1,7 @@
 import React from 'react';
 import AuthForm from '../../components/AuthForm/AuthForm';
 import useForm from '../../components/FormValidator/FormValidator';
+import { USER_NAME_REGEX } from '../../config/config';
 
 function Register({ onRegister, isLoading }) {
   const { enteredValues, errors, handleChange, isFormValid } = useForm();
@@ -32,7 +33,7 @@ function Register({ onRegister, isLoading }) {
           <label className="auth__label" htmlFor="name">Имя</label>
           <input
             onChange={handleChange}
-            pattern="[а-яА-Яa-zA-ZёË\- ]{1,}"
+            pattern={USER_NAME_REGEX}
             className={`auth__input auth__input_type_register ${isLoading ? "auth__input_disabled" : ""} ${errors.name ? "auth__input_type_error" : ""}`}
             type="text"
             value={enteredValues.name || ''}

@@ -17,7 +17,7 @@ const MOVIE_DELETE_UNSUCCESS_MESSAGE = "Фильм не удалён! Попро
 
 // Валидация форм
 const EMAIL_REGEX ="^\S+@\S+\.\S+$";
-const USER_NAME_REGEX ="[а-яА-Яa-zA-ZёË\- ]{1,}";
+const USER_NAME_REGEX = '^[A-Za-zА-Яа-яЁё /s -]+$';
 
 // Фильтрация и подгрузка фильмов
 const SHORT_MOVIES_DURATION = 40;
