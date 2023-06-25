@@ -2,7 +2,6 @@ import React, { useEffect, useContext, useState } from 'react';
 import './Profile.css';
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 import useForm from '../FormValidator/FormValidator';
-import { USER_NAME_REGEX } from '../../config/config';
 
 function Profile({ logOut, onUpdate, editSubmitTitle, isLoading }) {
     const [isDisabled, setIsDisabled] = useState(true);
@@ -90,7 +89,7 @@ function Profile({ logOut, onUpdate, editSubmitTitle, isLoading }) {
                         <label className={profileLabelClassName} htmlFor="name">Имя</label>
                         <input
                             onChange={handleChange}
-                            pattern={USER_NAME_REGEX}
+                            pattern="[а-яА-Яa-zA-ZёË\- ]{1,}"
                             required
                             id="name"
                             name="name"

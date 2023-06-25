@@ -4,10 +4,9 @@ import { useNavigate } from 'react-router-dom';
 
 function NotFound() {
   const navigate = useNavigate();
-  console.log("страница открылась")
 
   function handleBackClick() {
-    navigate(-1, { replace: true });
+    navigate(-2, { replace: true });
   }
 
   return (
