@@ -5,6 +5,10 @@ import MoviesCard from '../MoviesCard/MoviesCard'
 import Preloader from '../Preloader/Preloader';
 import EmptyResults from '../EmptyResults/EmptyResults'
 import {
+    MIN_BIG_SCREEN_SIZE,
+    MAX_MEDIUM_SCREEN_SIZE,
+    MIN_MEDIUM_SCREEN_SIZE,
+    MAX_SMALL_SCREEN_SIZE,
     CARDS_QUANTITY_DECKTOP,
     CARDS_QUANTITY_TABLET,
     CARDS_QUANTITY_MOBILE,
@@ -23,11 +27,11 @@ function MoviesCardList({ filteredMovies, savedMovies, onSaveMovie, onDeleteMovi
     // устанавливем видимое количество карточек на странице в зависимости от разрешения экрана
     function setShownQuantity() {
         const display = window.innerWidth;
-        if (display > 1279) {
+        if (display > MIN_BIG_SCREEN_SIZE) {
             setShownMoviesQuantity(CARDS_QUANTITY_DECKTOP);
-        } else if (display > 767 && display < 1280) {
+        } else if (display > MIN_MEDIUM_SCREEN_SIZE && display < MAX_MEDIUM_SCREEN_SIZE) {
             setShownMoviesQuantity(CARDS_QUANTITY_TABLET);
-        } else if (display < 768) {
+        } else if (display < MAX_SMALL_SCREEN_SIZE) {
             setShownMoviesQuantity(CARDS_QUANTITY_MOBILE);
         }
     }
@@ -42,16 +46,19 @@ function MoviesCardList({ filteredMovies, savedMovies, onSaveMovie, onDeleteMovi
         setTimeout(() => {
             window.addEventListener('resize', setShownQuantity);
         }, 500);
-    });
+        return () => {
+            window.removeEventListener('resize', setShownQuantity);
+        }
+    }, []);
 
     // функция подгрузки карточек в зависимости от разрешения экрана
     function loadMoreMovies() {
         const display = window.innerWidth;
-        if (display > 1279) {
+        if (display > MIN_BIG_SCREEN_SIZE) {
             setShownMoviesQuantity(shownMoviesQuantity + CARDS_MORE_DECKTOP);
-        } else if (display > 767 && display < 1280) {
+        } else if (display > MIN_MEDIUM_SCREEN_SIZE && display < MAX_MEDIUM_SCREEN_SIZE) {
             setShownMoviesQuantity(shownMoviesQuantity + CARDS_MORE_MOBILE);
-        } else if (display < 768) {
+        } else if (display < MAX_SMALL_SCREEN_SIZE) {
             setShownMoviesQuantity(shownMoviesQuantity + CARDS_MORE_MOBILE);
         }
     }

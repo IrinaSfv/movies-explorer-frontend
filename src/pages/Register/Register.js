@@ -1,7 +1,7 @@
 import React from 'react';
 import AuthForm from '../../components/AuthForm/AuthForm';
 import useForm from '../../components/FormValidator/FormValidator';
-import { EMAIL_REGEX, USER_NAME_REGEX } from '../../config/config';
+import { USER_NAME_REGEX } from '../../config/config';
 
 function Register({ onRegister, isLoading }) {
   const { enteredValues, errors, handleChange, isFormValid } = useForm();
@@ -34,7 +34,7 @@ function Register({ onRegister, isLoading }) {
           <input
             onChange={handleChange}
             pattern={USER_NAME_REGEX}
-            className={`auth__input auth__input_type_register ${errors.name ? "auth__input_type_error" : ""}`}
+            className={`auth__input auth__input_type_register ${isLoading ? "auth__input_disabled" : ""} ${errors.name ? "auth__input_type_error" : ""}`}
             type="text"
             value={enteredValues.name || ''}
             name="name"
@@ -50,8 +50,8 @@ function Register({ onRegister, isLoading }) {
           <label className="auth__label" htmlFor="email">E-mail</label>
           <input
             onChange={handleChange}
-            pattern={EMAIL_REGEX}
-            className={`auth__input auth__input_type_register ${errors.email ? "auth__input_type_error" : ""}`}
+            pattern="^\S+@\S+\.\S+$"
+            className={`auth__input auth__input_type_register ${isLoading ? "auth__input_disabled" : ""} ${errors.email ? "auth__input_type_error" : ""}`}
             type="email"
             value={enteredValues.email || ''}
             name="email"
@@ -67,7 +67,7 @@ function Register({ onRegister, isLoading }) {
           <label className="auth__label" htmlFor="password">Пароль</label>
           <input
             onChange={handleChange}
-            className={`auth__input auth__input_type_register ${errors.password ? "auth__input_type_error" : ""}`}
+            className={`auth__input auth__input_type_register ${isLoading ? "auth__input_disabled" : ""} ${errors.password ? "auth__input_type_error" : ""}`}
             type="password"
             value={enteredValues.password || ''}
             name="password"

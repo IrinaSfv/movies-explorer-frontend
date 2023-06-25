@@ -2,12 +2,11 @@ import React, { useEffect, useContext, useState } from 'react';
 import './Profile.css';
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 import useForm from '../FormValidator/FormValidator';
-import { EMAIL_REGEX, USER_NAME_REGEX } from '../../config/config';
+import { USER_NAME_REGEX } from '../../config/config';
 
 function Profile({ logOut, onUpdate, editSubmitTitle, isLoading }) {
     const [isDisabled, setIsDisabled] = useState(true);
     const currentUser = useContext(CurrentUserContext);
-    console.log(currentUser);
 
     const { enteredValues, errors, handleChange, isFormValid, resetForm } = useForm();
 
@@ -97,7 +96,7 @@ function Profile({ logOut, onUpdate, editSubmitTitle, isLoading }) {
                             name="name"
                             type="text"
                             // placeholder="Имя"
-                            className={`profile__data ${isDisabled ? "profile__data_disabled" : ""} ${errors.name ? "profile__data_type_error" : ""}`}
+                            className={`profile__data ${isDisabled || isLoading ? "profile__data_disabled" : ""} ${errors.name ? "profile__data_type_error" : ""}`}
                             value={`${enteredValues.name ? enteredValues.name : name}`}
                             minLength="2"
                             maxLength="30"
@@ -111,13 +110,13 @@ function Profile({ logOut, onUpdate, editSubmitTitle, isLoading }) {
                         <label className={profileLabelClassName} htmlFor="email">E-mail</label>
                         <input
                             onChange={handleChange}
-                            pattern={EMAIL_REGEX}
+                            pattern="^\S+@\S+\.\S+$"
                             required
                             id="email"
                             name="email"
                             type="email"
                             // placeholder="E-mail"
-                            className={`profile__data ${isDisabled ? "profile__data_disabled" : ""} ${errors.email ? "profile__data_type_error" : ""}`}
+                            className={`profile__data ${isDisabled || isLoading ? "profile__data_disabled" : ""} ${errors.email ? "profile__data_type_error" : ""}`}
                             value={`${enteredValues.email ? enteredValues.email : email}`}
                             minLength="2"
                             maxLength="30"

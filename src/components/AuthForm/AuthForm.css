@@ -101,6 +101,11 @@
     border-bottom: 1px solid #3456F3;
 }
 
+.auth__input_disabled {
+    cursor: default;
+    pointer-events: none;
+}
+
 .auth__error {
     position: absolute;
     bottom: 0;

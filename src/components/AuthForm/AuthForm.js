@@ -20,7 +20,7 @@ function AuthForm({ type, title, formName, onSubmit, children, buttonTitle, link
                 <form name={formName} className="auth__form" onSubmit={onSubmit} noValidate>
                     {children}
                     <button 
-                    disabled={isDisabled ? true : false}
+                    disabled={isDisabled || isLoading ? true : false}
                     type="submit" 
                     className={`auth__button submit-button ${isDisabled || isLoading ? "submit-button_inactive" : ""}`}
                     >{buttonTitle}</button>

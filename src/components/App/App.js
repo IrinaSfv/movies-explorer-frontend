@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
+import LoggedIn from "../LoggedIn/LoggedIn";
 import './App.css';
 import MainPage from '../../pages/MainPage/MainPage';
 import MoviesPage from '../../pages/MoviesPage/MoviesPage';
@@ -72,7 +73,8 @@ function App() {
         if (res) {
           setInfoTitle(REG_SUCCESS_MESSAGE);
           setInfoImg(SuccessImgSrc);
-          navigate('/signin', { replace: true });
+          // navigate('/signin', { replace: true });
+          handleLogin({ email, password });
         }
       })
       .catch(() => {
@@ -116,7 +118,7 @@ function App() {
     localStorage.removeItem('shortMovies');
     localStorage.removeItem('allMovies');
     localStorage.removeItem('token');
-    navigate('/signin', { replace: true });
+    navigate('/', { replace: true });
   }
 
   function handleUnauthorized(err) {
@@ -172,6 +174,7 @@ function App() {
       });
   }
 
+  // сохранение фильма в избранном
   function saveMovie(movieCard) {
     const currentToken = localStorage.getItem('token');
     mainApi.saveMoviesCard(movieCard, currentToken)
@@ -189,6 +192,7 @@ function App() {
       });
   }
 
+  // удаление фильма из избранного
   function deleteMovie(movieCard) {
     const currentToken = localStorage.getItem('token');
     mainApi.deleteMoviesCard(movieCard._id, currentToken)
@@ -246,8 +250,18 @@ function App() {
             loggedIn={loggedIn}
           />} />
           <Route path="/" element={<MainPage loggedIn={loggedIn} />} />
-          <Route path="/signin" element={<Login onLogin={handleLogin} isLoading={isLoading} />} />
-          <Route path="/signup" element={<Register onRegister={handleRegistration} isLoading={isLoading} />} />
+          <Route path="/signin" element={<LoggedIn 
+            element={Login}
+            loggedIn={loggedIn}
+            onLogin={handleLogin}
+            isLoading={isLoading}
+          />} />
+          <Route path="/signup" element={<LoggedIn 
+            element={Register}
+            loggedIn={loggedIn}
+            onRegister={handleRegistration}
+            isLoading={isLoading}
+          />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         <InfoTooltip

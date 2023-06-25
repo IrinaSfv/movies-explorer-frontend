@@ -16,12 +16,15 @@ const MOVIE_SAVE_UNSUCCESS_MESSAGE = "Фильм не сохранился! По
 const MOVIE_DELETE_UNSUCCESS_MESSAGE = "Фильм не удалён! Попробуйте ещё раз";
 
 // Валидация форм
-const EMAIL_REGEX =
-  "^[-a-z0-9!#$%&'*+/=?^_`{|}~]+(.[-a-z0-9!#$%&'*+/=?^_`{|}~]+)*@([a-z0-9]([-a-z0-9]{0,61}[a-z0-9])?.)*(aero|arpa|asia|biz|cat|com|coop|edu|gov|info|int|jobs|mil|mobi|museum|name|net|org|pro|tel|travel|[a-z][a-z])$";
-const USER_NAME_REGEX = '^[A-Za-zА-Яа-яЁё /s -]+$';
+const EMAIL_REGEX ="^\S+@\S+\.\S+$";
+const USER_NAME_REGEX = "^[A-Za-zА-Яа-яЁё /s -]+$";
 
 // Фильтрация и подгрузка фильмов
 const SHORT_MOVIES_DURATION = 40;
+const MIN_BIG_SCREEN_SIZE = 1279;
+const MAX_MEDIUM_SCREEN_SIZE = 1280;
+const MIN_MEDIUM_SCREEN_SIZE = 767;
+const MAX_SMALL_SCREEN_SIZE = 768;
 const CARDS_QUANTITY_DECKTOP = 12;
 const CARDS_QUANTITY_TABLET = 8;
 const CARDS_QUANTITY_MOBILE = 5;
@@ -48,6 +51,10 @@ export {
   KEY_WORD_ERROR,
   MOVIES_SERVER_ERROR,
   SHORT_MOVIES_DURATION,
+  MIN_BIG_SCREEN_SIZE, 
+  MAX_MEDIUM_SCREEN_SIZE,
+  MIN_MEDIUM_SCREEN_SIZE,
+  MAX_SMALL_SCREEN_SIZE,
   CARDS_QUANTITY_DECKTOP,
   CARDS_QUANTITY_TABLET,
   CARDS_QUANTITY_MOBILE,
